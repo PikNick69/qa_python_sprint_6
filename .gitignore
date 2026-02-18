@@ -1,0 +1,82 @@
+# Виртуальное окружение
+venv/
+env/
+ENV/
+.env/
+.venv/
+virtualenv/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+*.pot
+*.pyc
+
+# IDE (VSCode)
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+.project
+.classpath
+.settings/
+
+# Allure отчеты
+allure-results/
+allure-report/
+/allure-results
+/allure-report
+/allure-*
+
+# Директории с зависимостями
+pip-log.txt
+pip-delete-this-directory.txt
+# Логи
+*.log
+logs/
+!logs/.gitkeep
+
+# Тестовые отчеты
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Билды
+build/
+dist/
+*.egg-info/
+*.egg
+MANIFEST
+
+# Драйверы браузеров
+geckodriver*
+chromedriver*
+msedgedriver*
+
+# Временные файлы
+tmp/
+temp/
+*.tmp
+*.temp

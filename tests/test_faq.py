@@ -27,3 +27,4 @@ class TestFaq:
         with allure.step("Проверка соответствия ответа"):
             assert actual_answer == expected_answer, \
                 f"Ожидаемый ответ: {expected_answer}, Фактический: {actual_answer}"
+            
