@@ -1,76 +1,44 @@
 # Виртуальное окружение
 venv/
 env/
-ENV/
 .env/
 .venv/
-virtualenv/
 
-# Python
+# Python кэш
 __pycache__/
 *.py[cod]
 *$py.class
-*.so
-.Python
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
 .tox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.log
-*.pot
-*.pyc
 
-# IDE (VSCode)
+
+# IDE
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
 .DS_Store
-.project
-.classpath
-.settings/
 
-
-# Директории с зависимостями
-pip-log.txt
-pip-delete-this-directory.txt
 # Логи
 *.log
-logs/
-!logs/.gitkeep
 
-# Тестовые отчеты
-htmlcov/
-.tox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-.hypothesis/
-
-# Билды
-build/
-dist/
-*.egg-info/
-*.egg
-MANIFEST
-
-# Драйверы браузеров
-geckodriver*
-chromedriver*
-msedgedriver*
+# Драйверы
+geckodriver*.exe
+chromedriver*.exe
+msedgedriver*.exe
 
 # Временные файлы
 tmp/
 temp/
 *.tmp
 *.temp
+
+# Файлы отчетов
+*.xml
+*.html
+.coverage
+.coverage.*
+coverage.xml
