@@ -1,67 +1,57 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+from pages.base_page import BasePage
 import allure
 
 
-class HomePage:
+class HomePage(BasePage):
     def __init__(self, driver):
-        self.driver = driver
-        # Локатор для раздела "Вопросы о важном"
+        super().__init__(driver)
+        # Локаторы
         self.faq_section = (By.CLASS_NAME, "Home_FAQ__3uVm4")
-        # Локатор для верхней кнопки "Заказать" в хедере
-        self.top_order_button = (By.XPATH, "//button[contains(@class, 'Button_Button__ra12g') and text()='Заказать']")
-        # Локатор для нижней кнопки "Заказать" в теле страницы
-        self.bottom_order_button = (By.XPATH, "//button[contains(@class, 'Button_Button__ra12g') and text()='Заказать']")
-        # Локатор для логотипа Самоката (ведет на главную)
+        self.order_buttons = (By.XPATH, "//button[contains(@class, 'Button_Button__ra12g') and text()='Заказать']")
         self.scooter_logo = (By.CLASS_NAME, "Header_LogoScooter__3lsAR")
-        # Локатор для логотипа Яндекса (ведет на Дзен)
         self.yandex_logo = (By.CLASS_NAME, "Header_LogoYandex__3TSOI")
-        # Локатор для баннера с куки
-        self.cookie_banner = (By.XPATH, "//div[contains(@class, 'App_CookieConsent')]")
-        # Локатор для кнопки принятия куки
-        self.cookie_accept_button = (By.XPATH, "//button[contains(text(), 'да все привычны')]")
 
-    @allure.step("Закрытие куки-баннера")
-    def close_cookie_banner(self):
-        try:
-            banner = WebDriverWait(self.driver, 5).until(EC.presence_of_element_located(self.cookie_banner))
-            if banner.is_displayed():
-                accept_button = WebDriverWait(self.driver, 3).until(EC.element_to_be_clickable(self.cookie_accept_button))
-                accept_button.click()
-        except:
-            pass
-
+    @allure.step("Скролл до раздела 'Вопросы о важном'")
     def scroll_to_faq(self):
-        element = self.driver.find_element(*self.faq_section)
-        self.driver.execute_script("arguments[0].scrollIntoView();", element)
+        self.scroll_to_element(self.faq_section)
 
+    @allure.step("Клик по вопросу: {question_text}")
     def click_question(self, question_text):
-        # Динамический локатор для вопроса по его тексту
-        locator = (By.XPATH, f"//div[text()='{question_text}']")
-        element = WebDriverWait(self.driver, 5).until(EC.element_to_be_clickable(locator))
-        element.click()
+        question_locator = (By.XPATH, f"//div[text()='{question_text}']")
+        self.click_element(question_locator)
 
+    @allure.step("Получение текста ответа")
     def get_answer_text(self, question_text):
-        # Динамический локатор для ответа, связанного с конкретным вопросом
-        locator = (By.XPATH, f"//div[text()='{question_text}']/ancestor::div[@class='accordion__item']//div[@class='accordion__panel']/p")
-        answer = WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located(locator))
-        return answer.text
+        answer_locator = (By.XPATH, f"//div[text()='{question_text}']/ancestor::div[@class='accordion__item']//div[@class='accordion__panel']/p")
+        return self.get_text(answer_locator)
 
+    @allure.step("Проверка видимости ответа")
+    def is_answer_visible(self, question_text):
+        answer_locator = (By.XPATH, f"//div[text()='{question_text}']/ancestor::div[@class='accordion__item']//div[@class='accordion__panel']")
+        return self.is_element_visible(answer_locator)
+
+    @allure.step("Клик по верхней кнопке 'Заказать'")
     def click_top_order_button(self):
-        self.close_cookie_banner()
-        button = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(self.top_order_button))
-        button.click()
+        buttons = self.find_elements(self.order_buttons)
+        if buttons:
+            buttons[0].click()
 
+    @allure.step("Клик по нижней кнопке 'Заказать'")
     def click_bottom_order_button(self):
-        self.close_cookie_banner()
-        button = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located(self.bottom_order_button))
-        self.driver.execute_script("arguments[0].scrollIntoView();", button)
-        WebDriverWait(self.driver, 5).until(EC.element_to_be_clickable(self.bottom_order_button))
-        button.click()
+        buttons = self.find_elements(self.order_buttons)
+        if len(buttons) > 1:
+            self.scroll_to_element_js(buttons[1])
+            WebDriverWait(self.driver, 3).until(
+                lambda d: buttons[1].is_displayed() and buttons[1].is_enabled()
+            )
+            self.driver.execute_script("arguments[0].click();", buttons[1])
 
+    @allure.step("Клик по логотипу Самоката")
     def click_scooter_logo(self):
-        self.driver.find_element(*self.scooter_logo).click()
+        self.click_element(self.scooter_logo)
 
+    @allure.step("Клик по логотипу Яндекса")
     def click_yandex_logo(self):
-        self.driver.find_element(*self.yandex_logo).click()
+        self.click_element(self.yandex_logo)

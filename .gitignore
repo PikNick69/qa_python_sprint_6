@@ -37,12 +37,6 @@ coverage.xml
 .classpath
 .settings/
 
-# Allure отчеты
-allure-results/
-allure-report/
-/allure-results
-/allure-report
-/allure-*
 
 # Директории с зависимостями
 pip-log.txt

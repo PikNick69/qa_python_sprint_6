@@ -7,24 +7,16 @@ from data.test_data import FAQ_DATA
 @allure.epic("Тестирование сервиса 'Яндекс.Самокат'")
 @allure.feature("Раздел 'Вопросы о важном'")
 class TestFaq:
-
     @pytest.mark.faq
     @allure.title("Проверка соответствия ответа вопросу")
-    @allure.description("Тест проверяет, что при клике на вопрос открывается правильный ответ")
     @pytest.mark.parametrize("question, expected_answer", FAQ_DATA)
     def test_faq_answers(self, driver, question, expected_answer):
         home_page = HomePage(driver)
+        home_page.scroll_to_faq()
+        home_page.click_question(question)
         
-        with allure.step("Скролл до раздела с вопросами"):
-            home_page.scroll_to_faq()
-
-        with allure.step(f"Клик по вопросу: {question}"):
-            home_page.click_question(question)
+        assert home_page.is_answer_visible(question), f"Ответ на вопрос '{question}' не появился"
         
-        with allure.step("Получение текста ответа"):
-            actual_answer = home_page.get_answer_text(question)
-        
-        with allure.step("Проверка соответствия ответа"):
-            assert actual_answer == expected_answer, \
-                f"Ожидаемый ответ: {expected_answer}, Фактический: {actual_answer}"
-            
+        actual_answer = home_page.get_answer_text(question)
+        assert actual_answer == expected_answer, \
+            f"Ожидаемый ответ: {expected_answer}, Фактический: {actual_answer}"
