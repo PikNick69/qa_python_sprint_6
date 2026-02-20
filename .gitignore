@@ -1,0 +1,44 @@
+# Виртуальное окружение
+venv/
+env/
+.env/
+.venv/
+
+# Python кэш
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Логи
+*.log
+
+# Драйверы
+geckodriver*.exe
+chromedriver*.exe
+msedgedriver*.exe
+
+# Временные файлы
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Файлы отчетов
+*.xml
+*.html
+.coverage
+.coverage.*
+coverage.xml
