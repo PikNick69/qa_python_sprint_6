@@ -1,5 +1,4 @@
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
 from pages.base_page import BasePage
 import allure
 
@@ -36,16 +35,13 @@ class HomePage(BasePage):
     def click_top_order_button(self):
         buttons = self.find_elements(self.order_buttons)
         if buttons:
-            buttons[0].click()
+            self.click_element_js(self.order_buttons)
 
     @allure.step("Клик по нижней кнопке 'Заказать'")
     def click_bottom_order_button(self):
         buttons = self.find_elements(self.order_buttons)
         if len(buttons) > 1:
             self.scroll_to_element_js(buttons[1])
-            WebDriverWait(self.driver, 3).until(
-                lambda d: buttons[1].is_displayed() and buttons[1].is_enabled()
-            )
             self.driver.execute_script("arguments[0].click();", buttons[1])
 
     @allure.step("Клик по логотипу Самоката")

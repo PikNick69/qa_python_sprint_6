@@ -1,7 +1,5 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from pages.base_page import BasePage
 import allure
 
@@ -41,9 +39,7 @@ class OrderPage(BasePage):
         metro_input.clear()
         metro_input.send_keys(metro_station)
         
-        WebDriverWait(self.driver, 3).until(
-            lambda d: d.find_elements(By.CLASS_NAME, "select-search__select")
-        )
+        self.driver.find_elements(By.CLASS_NAME, "select-search__select")
         metro_input.send_keys(Keys.ARROW_DOWN)
         metro_input.send_keys(Keys.ENTER)
         
@@ -72,11 +68,11 @@ class OrderPage(BasePage):
             if options:
                 self.scroll_to_element_js(options[0])
                 options[0].click()
-        
+
         color_locator = self.color_black_checkbox if color == "black" else self.color_grey_checkbox
         self.scroll_to_element(color_locator)
         self.click_element_js(color_locator)
-        
+
         self.send_keys(self.comment_input, comment)
 
     @allure.step("Подтверждение заказа")
@@ -94,12 +90,8 @@ class OrderPage(BasePage):
         
         if order_btn:
             self.scroll_to_element_js(order_btn)
-            
             order_btn.click()
-            WebDriverWait(self.driver, 10).until(
-                EC.visibility_of_element_located(self.confirm_order_button)
-            )
-            
+            self.find_element(self.confirm_order_button)
             self.click_element(self.confirm_order_button)
 
     @allure.step("Проверка успешного создания заказа")

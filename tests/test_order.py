@@ -19,10 +19,12 @@ class TestOrder:
     def test_successful_order(self, driver, order_data, button_type):
         home_page = HomePage(driver)
         
-        if button_type == "top":
-            home_page.click_top_order_button()
-        else:
-            home_page.click_bottom_order_button()
+        button_methods = {
+            "top": home_page.click_top_order_button,
+            "bottom": home_page.click_bottom_order_button
+        }
+        
+        button_methods[button_type]()
         
         home_page.wait_for_url_contains("order")
         

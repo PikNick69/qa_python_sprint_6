@@ -18,5 +18,4 @@ class TestFaq:
         assert home_page.is_answer_visible(question), f"Ответ на вопрос '{question}' не появился"
         
         actual_answer = home_page.get_answer_text(question)
-        assert actual_answer == expected_answer, \
-            f"Ожидаемый ответ: {expected_answer}, Фактический: {actual_answer}"
+        assert actual_answer == expected_answer

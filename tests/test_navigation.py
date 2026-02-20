@@ -1,8 +1,6 @@
 import allure
 import pytest
-from selenium.webdriver.support.ui import WebDriverWait
 from pages.home_page import HomePage
-from data.urls import Urls
 
 
 @allure.epic("Тестирование сервиса 'Яндекс.Самокат'")
@@ -21,14 +19,12 @@ class TestNavigation:
     def test_yandex_logo_navigation(self, driver):
         home_page = HomePage(driver)
         home_page.click_yandex_logo()
+        
         original_window = home_page.switch_to_new_window()
-
-        WebDriverWait(driver, 10).until(
-            lambda d: d.current_url != "about:blank"
-        )
+        
+        home_page.wait_for_url_contains("dzen.ru") or home_page.wait_for_url_contains("yandex.ru")
         
         current_url = driver.current_url
-        assert "dzen.ru" in current_url or "yandex.ru" in current_url, \
-            f"Ожидался URL с dzen.ru или yandex.ru, получен: {current_url}"
+        assert "dzen.ru" in current_url or "yandex.ru" in current_url
         
         home_page.close_window_and_switch_back(original_window)
